@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.Build.NoTargets/3.7.56" DefaultTargets="Pack">
     <PropertyGroup>
         <PackageType>Template</PackageType>
-        <PackageVersion>5.0.2</PackageVersion>
+        <PackageVersion>5.0.3</PackageVersion>
         <PackageId>Daemon.Reactor.Template</PackageId>
         <Authors>Daemon, NuclearPowered</Authors>
         <Description>Mod template for Reactor.</Description>
@@ -29,6 +29,6 @@
         <Content Include=".template.config\**\*" />
         <Content Include="Reactor.Template.sln" />
         <Content Include="Reactor.Template\**\*" Exclude="**\bin\**;**\obj\**" />
-        <Content Include="nuget.config;build.cake;.github/workflows/main.yml" />
+        <Content Include=".gitignore;nuget.config;build.cake;.github/workflows/main.yml" />
     </ItemGroup>
 </Project>
