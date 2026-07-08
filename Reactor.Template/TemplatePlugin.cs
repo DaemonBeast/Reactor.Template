@@ -1,8 +1,8 @@
 ﻿using BepInEx;
-using BepInEx.Configuration;
 using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
-using Reactor;
+using Reactor.Networking;
+using Reactor.Networking.Attributes;
 using Reactor.Utilities;
 
 namespace Reactor.Template;
@@ -10,25 +10,22 @@ namespace Reactor.Template;
 [BepInAutoPlugin]
 [BepInProcess("Among Us.exe")]
 [BepInDependency(ReactorPlugin.Id)]
+[ReactorModFlags(ModFlags.RequireOnAllClients)]
 public partial class TemplatePlugin : BasePlugin
 {
     public Harmony Harmony { get; } = new(Id);
 
-    public ConfigEntry<string> ConfigName { get; private set; }
-
     public override void Load()
     {
-        ConfigName = Config.Bind("Fake", "Name", ":>");
-
         Harmony.PatchAll();
+
+        ReactorCredits.Register<TemplatePlugin>(location => location is ReactorCredits.Location.MainMenu);
     }
 
-    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.FixedUpdate))]
-    public static class ExamplePatch
+    public override bool Unload()
     {
-        public static void Postfix(PlayerControl __instance)
-        {
-            __instance.cosmetics.nameText.text = PluginSingleton<TemplatePlugin>.Instance.ConfigName.Value;
-        }
+        Harmony.UnpatchSelf();
+
+        return base.Unload();
     }
 }
